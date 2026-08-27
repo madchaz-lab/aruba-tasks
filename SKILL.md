@@ -110,16 +110,23 @@ sys.path.insert(0, '/home/madchaz/k3s/aruba')
 from tasks import connect, disconnect
 from tasks import vlan, routing, port, trunk, backup
 
-sw = connect("192.168.27.2")  # or 192.168.27.3
+sw = connect("192.168.27.2")  # cred_file defaults to aruba/cred.txt
+# sw = connect("192.168.27.3", cred_file="/path/to/other/cred.txt")
 # ... operations ...
 disconnect(sw)
 ```
+
+### Credential Safety
+- `connect()`, `get_creds()`, and `ArubaSwitch.__init__()` all accept optional `cred_file` parameter
+- No IPs or credentials are hardcoded — they must be provided at runtime
+- Default credential file is `aruba/cred.txt` (key=value format: `aruba_user=...`, `aruba_pwd=...`)
+- Never commit `cred.txt` — it is in `.gitignore`
 
 ### Available Modules
 
 | Module | Functions | Purpose |
 |--------|-----------|---------|
-| `tasks` (base) | `connect()`, `disconnect()`, `ArubaSwitch.navigate()`, `apply_pending()`, `download_config()`, `get_firmware_version()`, `get_help()`, `list_help_topics()` | Auth, navigation, config download, OLH help |
+| `tasks` (base) | `connect(ip, cred_file)`, `disconnect(sw)`, `get_creds(cred_file)`, `ArubaSwitch(ip, page, cred_file)` | Auth, navigation, config download, OLH help |
 | `vlan` | `list_vlans()`, `rename_vlan()`, `delete_vlan()`, `add_vlan()` | VLAN CRUD |
 | `routing` | `list_vlan_interfaces()`, `clear_vlan_ip()`, `set_vlan_ip()` | VLAN IP interface management |
 | `port` | `list_ports()`, `edit_port_pvid()`, `set_port_description()` | Port configuration |
@@ -216,7 +223,7 @@ Every logged-in page embeds help content as CDATA in `<script id="olh...">` tags
 ### Usage
 ```python
 from tasks import connect, disconnect
-sw = connect("192.168.27.2")
+sw = connect("192.168.27.2")  # or with explicit cred_file
 # Get all help topics
 topics = sw.list_help_topics()
 # Get help for specific topic (case-insensitive match on id or content)
