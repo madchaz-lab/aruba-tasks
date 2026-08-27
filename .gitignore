@@ -1,0 +1,12 @@
+# Ignore secrets, configs, firmware, and media
+cred.txt
+*.cfg
+*.swi
+*.zip
+*.png
+*.htm
+*.html
+*.url
+*.tar.gz
+__pycache__/
+*.pyc
