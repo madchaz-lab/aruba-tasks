@@ -317,3 +317,64 @@ def get_daylight_saving(sw: ArubaSwitch):
             return result;
         }
     """)
+
+
+def get_logged_in_sessions(sw: ArubaSwitch):
+    """Return list of dicts with logged-in user sessions.
+
+    OLH: olhLoggedIn
+    """
+    sw.navigate('setup', 'user_management')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const result = [];
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.innerText.trim());
+                if (headers.includes('Username') && headers.includes('Session Time')) {
+                    const rows = Array.from(table.querySelectorAll('tbody tr'));
+                    rows.forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td'));
+                        if (cells.length >= 4) {
+                            result.push({
+                                username: cells[0].innerText.trim(),
+                                connected_from: cells[1].innerText.trim(),
+                                session_time: cells[2].innerText.trim(),
+                                session_type: cells[3].innerText.trim()
+                            });
+                        }
+                    });
+                }
+            });
+            return result;
+        }
+    """)
+
+
+def list_password_keywords(sw: ArubaSwitch):
+    """Return list of dicts with password keyword exclusion list.
+
+    OLH: olhKeywords
+    """
+    sw.navigate('setup', 'user_management')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const result = [];
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.innerText.trim());
+                if (headers.includes('Keyword')) {
+                    const rows = Array.from(table.querySelectorAll('tbody tr'));
+                    rows.forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td'));
+                        if (cells.length >= 1 && !cells[0].innerText.trim().includes('Table Is Empty')) {
+                            result.push({ keyword: cells[0].innerText.trim() });
+                        }
+                    });
+                }
+            });
+            return result;
+        }
+    """)

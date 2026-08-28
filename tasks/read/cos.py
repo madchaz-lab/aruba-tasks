@@ -1,6 +1,6 @@
 """Read operations for Class of Service configuration.
 
-OLH topics: olhCoS, olhCoSDSCP, olhCoSPriority, olhCoSQueue,
+OLH topics: olhQoS, olhCoS, olhCoSDSCP, olhCoSPriority, olhCoSQueue,
             olhCoSShaping, olhCoSStatistics, olhCoSGeneral
 """
 from tasks import ArubaSwitch

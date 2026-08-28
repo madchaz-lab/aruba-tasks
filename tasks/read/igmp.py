@@ -1,6 +1,6 @@
 """Read operations for IGMP Snooping configuration.
 
-OLH topics: olhIGMPSnooping, olhIGMPSnoopingGlobal, olhIGMPForwarding,
+OLH topics: olhIGMP, olhIGMPSnooping, olhIGMPSnoopingGlobal, olhIGMPForwarding,
             olhIGMPMulticast, olhIGMPVLANSettings
 """
 from tasks import ArubaSwitch

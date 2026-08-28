@@ -1,6 +1,6 @@
 """Read operations for Security configuration.
 
-OLH topics: olhPortSecurity, olhPortAccessControl, olhProtectedPorts,
+OLH topics: olhSecurity, olhPortSecurity, olhPortAccessControl, olhProtectedPorts,
             olhPortAccessControlClient, olhPortAccessControlGlobal,
             olhPortAccessControlMac, olhPortAccessControlPort,
             olhPortAccessControlStatistics, olhPortAccessControlSupplicant,
