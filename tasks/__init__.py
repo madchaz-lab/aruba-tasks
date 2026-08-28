@@ -196,6 +196,8 @@ class ArubaSwitch:
         Returns:
             dict mapping topic_id -> html content (CDATA wrapper stripped).
         """
+        # OLH scripts load dynamically, wait for them
+        self.page.wait_for_timeout(5000)
         help_scripts = self.page.evaluate("""
             () => {
                 const result = {};
@@ -222,7 +224,11 @@ class ArubaSwitch:
         return {}
 
     def list_help_topics(self):
-        """Return list of available help topic IDs on the current page."""
+        """Return list of available help topic IDs on the current page.
+
+        Note: OLH scripts load dynamically, so this waits 5s before querying.
+        """
+        self.page.wait_for_timeout(5000)
         return self.page.evaluate("""
             () => {
                 const result = [];

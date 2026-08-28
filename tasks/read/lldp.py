@@ -86,6 +86,41 @@ def list_lldp_neighbors(sw: ArubaSwitch):
     """)
 
 
+def get_lldp_information(sw: ArubaSwitch):
+    """Return dict with LLDP global information (chassis ID, capabilities).
+
+    OLH: olhLLDPInformation
+    """
+    sw.navigate('neighbor_discovery', 'lldp')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Chassis ID')) {
+                    if (i + 1 < lines.length) {
+                        result.chassis_id = lines[i + 1];
+                    }
+                }
+                if (line.includes('Capabilities Supported')) {
+                    if (i + 1 < lines.length) {
+                        result.capabilities_supported = lines[i + 1];
+                    }
+                }
+                if (line.includes('Capabilities Enabled')) {
+                    if (i + 1 < lines.length) {
+                        result.capabilities_enabled = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
 def get_lldp_stats(sw: ArubaSwitch):
     """Return dict with LLDP statistics.
 

@@ -67,6 +67,74 @@ def get_dhcp_snooping_status(sw: ArubaSwitch):
     """)
 
 
+def get_dhcp_relay_global(sw: ArubaSwitch):
+    """Return dict with DHCP relay global settings.
+
+    OLH: olhDHCPRelay, olhDHCPRelayGlobal
+    """
+    sw.navigate('routing', 'dhcp_relay')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            result.enabled = body.includes('Enabled');
+            return result;
+        }
+    """)
+
+
+def get_dhcp_interface_settings(sw: ArubaSwitch):
+    """Return list of dicts with DHCP interface settings.
+
+    OLH: olhDHCPInterfaceSettings
+    Table: #datagrid-dhcp-interface
+    """
+    sw.navigate('routing', 'dhcp_relay')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const dt = jQuery('#datagrid-dhcp-interface').DataTable();
+            const result = [];
+            for (let i = 0; i < dt.rows().count(); i++) {
+                result.push(dt.row(i).data());
+            }
+            return result;
+        }
+    """)
+
+
+def get_dhcp_vlan_settings(sw: ArubaSwitch):
+    """Return list of dicts with DHCP VLAN settings.
+
+    OLH: olhDHCPVLANSettings
+    """
+    sw.navigate('routing', 'dhcp_relay')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const result = [];
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.innerText.trim());
+                if (headers.includes('VLAN')) {
+                    const rows = Array.from(table.querySelectorAll('tbody tr'));
+                    rows.forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td'));
+                        if (cells.length >= 2) {
+                            result.push({
+                                vlan: cells[0].innerText.trim(),
+                                setting: cells[1].innerText.trim()
+                            });
+                        }
+                    });
+                }
+            });
+            return result;
+        }
+    """)
+
+
 def list_dhcp_bindings(sw: ArubaSwitch):
     """Return list of dicts with DHCP binding database entries.
 

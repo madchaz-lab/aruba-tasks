@@ -66,6 +66,31 @@ def list_log_messages(sw: ArubaSwitch):
     """)
 
 
+def get_log_file(sw: ArubaSwitch):
+    """Return dict with log file information.
+
+    OLH: olhLoggingLogFile
+    """
+    sw.navigate('diagnostics', 'logging')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Log File')) {
+                    if (i + 1 < lines.length) {
+                        result.log_file = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
 def get_remote_log_config(sw: ArubaSwitch):
     """Return dict with remote logging configuration.
 

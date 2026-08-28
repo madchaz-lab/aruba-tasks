@@ -72,6 +72,31 @@ def list_igmp_multicast(sw: ArubaSwitch):
     """)
 
 
+def get_igmp_unregistered_multicast(sw: ArubaSwitch):
+    """Return dict with IGMP unregistered multicast settings.
+
+    OLH: olhIGMPSnoopingUnregisteredMulticast
+    """
+    sw.navigate('switching', 'igmp_snooping')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Unregistered')) {
+                    if (i + 1 < lines.length) {
+                        result.unregistered = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
 def get_igmp_per_vlan(sw: ArubaSwitch):
     """Return list of dicts with IGMP snooping per VLAN.
 

@@ -2,9 +2,109 @@
 
 OLH topics: olhSystem, olhSystemInformation, olhSystemTime, olhSystemResources,
             olhUserManagement, olhPasswordRules, olhUserSessions, olhManagementVLAN,
-            olhDaylightSaving
+            olhDaylightSaving, olhDashboard, olhDashboardDeviceView, olhDeviceInformation
 """
 from tasks import ArubaSwitch
+
+
+def get_dashboard_info(sw: ArubaSwitch):
+    """Return dict with dashboard information.
+
+    OLH: olhDashboard
+    """
+    sw.navigate('maintenance', 'backup_update')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Software Version')) {
+                    if (i + 1 < lines.length) {
+                        result.software_version = lines[i + 1];
+                    }
+                }
+                if (line.includes('CPU Utilization')) {
+                    if (i + 1 < lines.length) {
+                        result.cpu_utilization = lines[i + 1];
+                    }
+                }
+                if (line.includes('Memory Usage')) {
+                    if (i + 1 < lines.length) {
+                        result.memory_usage = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
+def get_dashboard_device_view(sw: ArubaSwitch):
+    """Return dict with dashboard device view.
+
+    OLH: olhDashboardDeviceView
+    """
+    sw.navigate('maintenance', 'backup_update')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('System Resource')) {
+                    if (i + 1 < lines.length) {
+                        result.system_resource = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
+def get_device_information(sw: ArubaSwitch):
+    """Return dict with device information.
+
+    OLH: olhDeviceInformation
+    """
+    sw.navigate('maintenance', 'backup_update')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Software Version')) {
+                    if (i + 1 < lines.length) {
+                        result.software_version = lines[i + 1];
+                    }
+                }
+                if (line.includes('OS Version')) {
+                    if (i + 1 < lines.length) {
+                        result.os_version = lines[i + 1];
+                    }
+                }
+                if (line.includes('Serial Number')) {
+                    if (i + 1 < lines.length) {
+                        result.serial_number = lines[i + 1];
+                    }
+                }
+                if (line.includes('MAC Address')) {
+                    if (i + 1 < lines.length) {
+                        result.mac_address = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
 
 
 def get_system_info(sw: ArubaSwitch):

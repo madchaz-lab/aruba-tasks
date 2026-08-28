@@ -5,6 +5,23 @@ OLH topics: olhRMON, olhRMONAlarms, olhRMONCollectors, olhRMONEvents, olhRMONSta
 from tasks import ArubaSwitch
 
 
+def get_rmon_global(sw: ArubaSwitch):
+    """Return dict with RMON global settings.
+
+    OLH: olhRMON
+    """
+    sw.navigate('diagnostics', 'rmon')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            result.enabled = body.includes('Enabled');
+            return result;
+        }
+    """)
+
+
 def list_rmon_alarms(sw: ArubaSwitch):
     """Return list of dicts with RMON alarm configuration.
 

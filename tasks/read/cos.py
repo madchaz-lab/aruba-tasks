@@ -186,6 +186,39 @@ def list_queue_config(sw: ArubaSwitch):
     """)
 
 
+def get_cos_shaping(sw: ArubaSwitch):
+    """Return list of dicts with CoS shaping rate per interface.
+
+    OLH: olhCoSShaping
+    Table: table with Shaping Rate column
+    """
+    sw.navigate('qos', 'cos')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const result = [];
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.innerText.trim());
+                if (headers.includes('Shaping Rate')) {
+                    const rows = Array.from(table.querySelectorAll('tbody tr'));
+                    rows.forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td'));
+                        if (cells.length >= 4) {
+                            result.push({
+                                interface: cells[1].innerText.trim(),
+                                default_p_priority: cells[2].innerText.trim(),
+                                shaping_rate: cells[3].innerText.trim()
+                            });
+                        }
+                    });
+                }
+            });
+            return result;
+        }
+    """)
+
+
 def list_dscp_cos_map(sw: ArubaSwitch):
     """Return list of dicts with DSCP to CoS mapping.
 

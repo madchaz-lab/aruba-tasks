@@ -53,6 +53,37 @@ def get_poe_schedule(sw: ArubaSwitch):
     """)
 
 
+def get_poe_status(sw: ArubaSwitch):
+    """Return dict with POE global status.
+
+    OLH: olhPOEStatus
+    """
+    sw.navigate('switching', 'port_config')
+    sw.page.wait_for_timeout(4000)
+    return sw.page.evaluate("""
+        () => {
+            const body = document.body.innerText;
+            const result = {};
+            result.enabled = body.includes('Enabled');
+            const lines = body.split('\\n').map(l => l.trim()).filter(l => l);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.includes('Power Available')) {
+                    if (i + 1 < lines.length) {
+                        result.power_available = lines[i + 1];
+                    }
+                }
+                if (line.includes('Power Consumed')) {
+                    if (i + 1 < lines.length) {
+                        result.power_consumed = lines[i + 1];
+                    }
+                }
+            }
+            return result;
+        }
+    """)
+
+
 def get_poe_consumption_history(sw: ArubaSwitch):
     """Return dict with POE consumption history.
 
