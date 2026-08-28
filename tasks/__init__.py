@@ -142,6 +142,9 @@ class ArubaSwitch:
             folder: key from FOLDER_MAP (e.g. 'switching', 'vlan')
             item: key from ITEM_MAP (e.g. 'port_config', 'vlan_config')
         """
+        # Close any open modal first to prevent it from blocking navigation
+        self.close_any_modal()
+
         folder_sel = self.FOLDER_MAP[folder]
         item_sel = self.ITEM_MAP[item]
 
@@ -160,9 +163,20 @@ class ArubaSwitch:
         """Click the page-level Apply button if pending changes exist."""
         btn = self.page.query_selector("#btnApply")
         if btn and btn.is_visible():
-            btn.click()
+            self.page.evaluate("document.getElementById('btnApply').click()")
             self.page.wait_for_timeout(3000)
             return True
+        return False
+
+    def close_any_modal(self):
+        """Close any open modal dialog to prevent it from blocking navigation."""
+        modal = self.page.query_selector(".modal.show")
+        if modal:
+            close_btn = modal.query_selector("button:has-text('Cancel'), button:has-text('Close'), button.close")
+            if close_btn:
+                close_btn.click()
+                self.page.wait_for_timeout(1000)
+                return True
         return False
 
     def download_config(self):
