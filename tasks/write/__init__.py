@@ -58,6 +58,11 @@ from tasks.write.cos import (
     set_cos_priority, set_queue_scheduling,
     set_traffic_type, set_interface_shaping_rate,
 )
+from tasks.write.port_access_control import (
+    add_mac_auth_rule, remove_mac_auth_rule,
+    add_mac_auth_group, remove_mac_auth_group,
+    set_vlan_authentication,
+)
 
 __all__ = [
     # VLAN
@@ -118,4 +123,8 @@ __all__ = [
     # CoS
     "set_cos_priority", "set_queue_scheduling",
     "set_traffic_type", "set_interface_shaping_rate",
+    # Port Access Control
+    "add_mac_auth_rule", "remove_mac_auth_rule",
+    "add_mac_auth_group", "remove_mac_auth_group",
+    "set_vlan_authentication",
 ]
