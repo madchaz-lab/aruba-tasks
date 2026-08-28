@@ -256,6 +256,7 @@ def connect(ip: str, cred_file: str = None) -> ArubaSwitch:
     )
     page = context.new_page()
     sw = ArubaSwitch(ip, page, cred_file)
+    sw.login()
     sw._browser = browser
     sw._context = context
     sw._playwright = p
