@@ -63,6 +63,9 @@ from tasks.write.port_access_control import (
     add_mac_auth_group, remove_mac_auth_group,
     set_vlan_authentication,
 )
+from tasks.write.https_cert import (
+    generate_certificate, import_certificate, delete_certificate,
+)
 
 __all__ = [
     # VLAN
@@ -127,4 +130,6 @@ __all__ = [
     "add_mac_auth_rule", "remove_mac_auth_rule",
     "add_mac_auth_group", "remove_mac_auth_group",
     "set_vlan_authentication",
+    # HTTPS Certificate
+    "generate_certificate", "import_certificate", "delete_certificate",
 ]
