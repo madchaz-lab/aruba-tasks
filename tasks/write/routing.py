@@ -1,22 +1,5 @@
-"""Routing and IP interface operations."""
+"""Write operations for routing and VLAN IP interfaces."""
 from tasks import ArubaSwitch
-
-
-def list_vlan_interfaces(sw: ArubaSwitch):
-    """Return list of dicts with VLAN interface info."""
-    sw.navigate('routing', 'routing_config')
-    sw.page.wait_for_timeout(2000)
-    return sw.page.evaluate("""
-        () => {
-            const dt = jQuery('#datagrid-routing-vlan').DataTable();
-            const result = [];
-            for (let i = 0; i < dt.rows().count(); i++) {
-                const row = dt.row(i);
-                result.push(row.data());
-            }
-            return result;
-        }
-    """)
 
 
 def clear_vlan_ip(sw: ArubaSwitch, vid: int) -> bool:
@@ -49,13 +32,11 @@ def clear_vlan_ip(sw: ArubaSwitch, vid: int) -> bool:
     if not modal:
         raise RuntimeError("Edit modal not found")
 
-    # Click the 'None' radio button label
     label = modal.query_selector("#lblrbVlanIPAddressMethod_0")
     if label:
         label.click()
         sw.page.wait_for_timeout(500)
 
-    # Clear IP and mask fields
     for inp in modal.query_selector_all("input[type='text']"):
         id_attr = inp.get_attribute("id") or ""
         value = inp.get_attribute("value") or ""
@@ -98,13 +79,11 @@ def set_vlan_ip(sw: ArubaSwitch, vid: int, ip: str, mask: str) -> bool:
     if not modal:
         raise RuntimeError("Edit modal not found")
 
-    # Click 'Manual' radio button
     label = modal.query_selector("#lblrbVlanIPAddressMethod_1")
     if label:
         label.click()
         sw.page.wait_for_timeout(500)
 
-    # Set IP and mask
     ip_input = modal.query_selector("#txtVlanIPAddress")
     mask_input = modal.query_selector("#txtVlanSubnetMask")
     if ip_input:

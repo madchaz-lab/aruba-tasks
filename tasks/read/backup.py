@@ -1,4 +1,4 @@
-"""Config backup and firmware operations."""
+"""Read operations for config backup and firmware info."""
 import os
 from tasks import ArubaSwitch
 
@@ -17,7 +17,7 @@ def backup_config(sw: ArubaSwitch, save_path: str = None):
             if line.startswith('hostname '):
                 hostname = line.split()[1]
                 break
-        save_path = os.path.join(os.path.dirname(__file__), '..', f"{hostname}.cfg")
+        save_path = os.path.join(os.path.dirname(__file__), '..', '..', f"{hostname}.cfg")
 
     with open(save_path, 'w') as f:
         f.write(config)

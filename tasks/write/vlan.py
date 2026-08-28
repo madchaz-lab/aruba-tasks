@@ -1,25 +1,5 @@
-"""VLAN operations."""
+"""Write operations for VLAN configuration."""
 from tasks import ArubaSwitch
-
-
-def list_vlans(sw: ArubaSwitch):
-    """Return list of (vid, name) tuples."""
-    sw.navigate('vlan', 'vlan_config')
-    sw.page.click("#vlan-refresh-conf")
-    sw.page.wait_for_timeout(1000)
-    return sw.page.evaluate("""
-        () => {
-            const dt = jQuery('#datagrid-configuration').DataTable();
-            const result = [];
-            for (let i = 0; i < dt.rows().count(); i++) {
-                result.push([
-                    dt.cell(i, 1).data(),
-                    dt.cell(i, 2).data()
-                ]);
-            }
-            return result;
-        }
-    """)
 
 
 def rename_vlan(sw: ArubaSwitch, vid: int, new_name: str) -> bool:
@@ -55,7 +35,6 @@ def rename_vlan(sw: ArubaSwitch, vid: int, new_name: str) -> bool:
     name_input = modal.query_selector("#txtEditVlanName")
     current = name_input.get_attribute("value") or ""
     if current == new_name:
-        # Cancel and return
         modal.query_selector("button:has-text('CANCEL')").click()
         return False
 

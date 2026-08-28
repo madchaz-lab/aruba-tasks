@@ -108,7 +108,8 @@ Reusable Python modules for switch operations. Import and use instead of raw Pla
 import sys
 sys.path.insert(0, '/home/madchaz/k3s/aruba')
 from tasks import connect, disconnect
-from tasks import vlan, routing, port, trunk, backup
+from tasks.read import list_vlans, list_ports, list_trunks, backup_config, get_firmware_info
+from tasks.write import add_vlan, rename_vlan, delete_vlan, set_vlan_ip
 
 sw = connect("192.168.27.2")  # cred_file defaults to aruba/cred.txt
 # sw = connect("192.168.27.3", cred_file="/path/to/other/cred.txt")
@@ -122,16 +123,38 @@ disconnect(sw)
 - Default credential file is `aruba/cred.txt` (key=value format: `aruba_user=...`, `aruba_pwd=...`)
 - Never commit `cred.txt` — it is in `.gitignore`
 
+### Folder Structure
+
+```
+tasks/
+  __init__.py    - ArubaSwitch class, connect(), disconnect(), get_creds()
+  read/          - Read-only operations (list, get info, backup)
+    vlan.py      - list_vlans()
+    routing.py   - list_vlan_interfaces()
+    port.py      - list_ports()
+    trunk.py     - list_trunks()
+    backup.py    - backup_config(), get_firmware_info()
+  write/         - Config-changing operations (add, rename, delete, set)
+    vlan.py      - add_vlan(), rename_vlan(), delete_vlan()
+    routing.py   - clear_vlan_ip(), set_vlan_ip()
+    port.py      - edit_port_pvid(), set_port_description()
+    trunk.py     - disable_trunk(), clear_trunk_members()
+```
+
 ### Available Modules
 
 | Module | Functions | Purpose |
 |--------|-----------|---------|
 | `tasks` (base) | `connect(ip, cred_file)`, `disconnect(sw)`, `get_creds(cred_file)`, `ArubaSwitch(ip, page, cred_file)` | Auth, navigation, config download, OLH help |
-| `vlan` | `list_vlans()`, `rename_vlan()`, `delete_vlan()`, `add_vlan()` | VLAN CRUD |
-| `routing` | `list_vlan_interfaces()`, `clear_vlan_ip()`, `set_vlan_ip()` | VLAN IP interface management |
-| `port` | `list_ports()`, `edit_port_pvid()`, `set_port_description()` | Port configuration |
-| `trunk` | `list_trunks()`, `disable_trunk()`, `clear_trunk_members()` | Trunk management |
-| `backup` | `backup_config()`, `get_firmware_info()` | Config backup and firmware info |
+| `tasks.read.vlan` | `list_vlans()` | VLAN list |
+| `tasks.write.vlan` | `add_vlan()`, `rename_vlan()`, `delete_vlan()` | VLAN CRUD (write) |
+| `tasks.read.routing` | `list_vlan_interfaces()` | VLAN IP list |
+| `tasks.write.routing` | `clear_vlan_ip()`, `set_vlan_ip()` | VLAN IP management |
+| `tasks.read.port` | `list_ports()` | Port list |
+| `tasks.write.port` | `edit_port_pvid()`, `set_port_description()` | Port config |
+| `tasks.read.trunk` | `list_trunks()` | Trunk list |
+| `tasks.write.trunk` | `disable_trunk()`, `clear_trunk_members()` | Trunk management |
+| `tasks.read.backup` | `backup_config()`, `get_firmware_info()` | Config backup and firmware info |
 
 
 ### Navigation
