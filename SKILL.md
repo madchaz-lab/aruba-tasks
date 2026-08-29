@@ -136,9 +136,32 @@ tasks/
     backup.py    - backup_config(), get_firmware_info()
   write/         - Config-changing operations (add, rename, delete, set)
     vlan.py      - add_vlan(), rename_vlan(), delete_vlan()
-    routing.py   - clear_vlan_ip(), set_vlan_ip()
+    routing.py   - clear_vlan_ip(), set_vlan_ip(), add_static_route(), remove_static_route()
     port.py      - edit_port_pvid(), set_port_description()
     trunk.py     - disable_trunk(), clear_trunk_members()
+    dhcp_relay.py        - add_dhcp_server(), remove_dhcp_server(), add_dhcp_interface(), remove_dhcp_interface()
+    logging.py             - enable_logging(), set_log_severity(), add_remote_log_server(), remove_remote_log_server()
+    loop_protection.py     - enable_loop_protection(), set_loop_protection_time(), set_port_loop_protection()
+    eee_config.py          - enable_ee(), enable_low_power()
+    maintenance.py         - reboot_switch()
+    voice_vlan.py          - add_telephony_oui(), remove_telephony_oui(), restore_telephony_oui()
+    stp_global.py          - enable_stp(), set_stp_priority(), set_stp_timers(), enable_bpdu_filter()
+    mstp_config.py         - add_mstp_instance(), edit_mstp_instance(), remove_mstp_instance(), set_mstp_port_params()
+    lldp.py                - set_lldp_timers(), configure_lldp_interface()
+    igmp_snooping.py       - configure_igmp_snooping(), set_igmp_querier(), add_static_member()
+    protected_ports.py     - enable_protected_port()
+    dos_protection.py      - enable_dos_protection(), set_dos_threshold()
+    arp_attack_protection.py - enable_arp_protection(), set_arp_interface_protection(), add_arp_access_rule(), remove_arp_access_rule()
+    port_security.py       - enable_port_security(), add_static_mac(), remove_static_mac()
+    radius.py              - add_radius_server(), edit_radius_server(), remove_radius_server()
+    schedule_config.py     - add_schedule(), remove_schedule()
+    dhcp_snooping.py       - enable_dhcp_snooping(), set_dhcp_trusted_port(), add_dhcp_binding(), clear_dhcp_bindings()
+    port_mirroring.py      - add_mirror_session(), edit_mirror_session(), remove_mirror_session()
+    snmp.py                - enable_snmp(), add_snmp_community(), remove_snmp_community(), add_snmp_trap_receiver(), remove_snmp_trap_receiver()
+    acl.py                 - add_acl(), add_acl_rule_ipv4(), remove_acl_rule_ipv4(), remove_acl(), bind_acl_to_interface(), bind_acl_to_vlan()
+    cos.py                 - set_cos_priority(), set_queue_scheduling(), set_traffic_type(), set_interface_shaping_rate()
+    port_access_control.py - add_mac_auth_rule(), remove_mac_auth_rule(), add_mac_auth_group(), remove_mac_auth_group(), set_vlan_authentication()
+    https_cert.py          - generate_certificate(), import_certificate(), delete_certificate()
 ```
 
 ### Available Modules
@@ -155,6 +178,29 @@ tasks/
 | `tasks.read.trunk` | `list_trunks()` | Trunk list |
 | `tasks.write.trunk` | `disable_trunk()`, `clear_trunk_members()` | Trunk management |
 | `tasks.read.backup` | `backup_config()`, `get_firmware_info()` | Config backup and firmware info |
+| `tasks.write.dhcp_relay` | `add_dhcp_server()`, `remove_dhcp_server()`, `add_dhcp_interface()`, `remove_dhcp_interface()` | DHCP relay config |
+| `tasks.write.logging` | `enable_logging()`, `set_log_severity()`, `add_remote_log_server()`, `remove_remote_log_server()` | System logging |
+| `tasks.write.loop_protection` | `enable_loop_protection()`, `set_loop_protection_time()`, `set_port_loop_protection()` | Loop protection |
+| `tasks.write.eee_config` | `enable_ee()`, `enable_low_power()` | EEE energy efficient ethernet |
+| `tasks.write.maintenance` | `reboot_switch()` | Switch reboot |
+| `tasks.write.voice_vlan` | `add_telephony_oui()`, `remove_telephony_oui()`, `restore_telephony_oui()` | Voice VLAN OUIs |
+| `tasks.write.stp_global` | `enable_stp()`, `set_stp_priority()`, `set_stp_timers()`, `enable_bpdu_filter()` | STP global settings |
+| `tasks.write.mstp_config` | `add_mstp_instance()`, `edit_mstp_instance()`, `remove_mstp_instance()`, `set_mstp_port_params()` | MSTP configuration |
+| `tasks.write.lldp` | `set_lldp_timers()`, `configure_lldp_interface()` | LLDP settings |
+| `tasks.write.igmp_snooping` | `configure_igmp_snooping()`, `set_igmp_querier()`, `add_static_member()` | IGMP snooping |
+| `tasks.write.protected_ports` | `enable_protected_port()` | Protected ports |
+| `tasks.write.dos_protection` | `enable_dos_protection()`, `set_dos_threshold()` | DoS protection |
+| `tasks.write.arp_attack_protection` | `enable_arp_protection()`, `set_arp_interface_protection()`, `add_arp_access_rule()`, `remove_arp_access_rule()` | ARP attack protection |
+| `tasks.write.port_security` | `enable_port_security()`, `add_static_mac()`, `remove_static_mac()` | Port security |
+| `tasks.write.radius` | `add_radius_server()`, `edit_radius_server()`, `remove_radius_server()` | RADIUS config |
+| `tasks.write.schedule_config` | `add_schedule()`, `remove_schedule()` | Schedule config |
+| `tasks.write.dhcp_snooping` | `enable_dhcp_snooping()`, `set_dhcp_trusted_port()`, `add_dhcp_binding()`, `clear_dhcp_bindings()` | DHCP snooping |
+| `tasks.write.port_mirroring` | `add_mirror_session()`, `edit_mirror_session()`, `remove_mirror_session()` | Port mirroring |
+| `tasks.write.snmp` | `enable_snmp()`, `add_snmp_community()`, `remove_snmp_community()`, `add_snmp_trap_receiver()`, `remove_snmp_trap_receiver()` | SNMP config |
+| `tasks.write.acl` | `add_acl()`, `add_acl_rule_ipv4()`, `remove_acl_rule_ipv4()`, `remove_acl()`, `bind_acl_to_interface()`, `bind_acl_to_vlan()` | ACL management |
+| `tasks.write.cos` | `set_cos_priority()`, `set_queue_scheduling()`, `set_traffic_type()`, `set_interface_shaping_rate()` | Class of service |
+| `tasks.write.port_access_control` | `add_mac_auth_rule()`, `remove_mac_auth_rule()`, `add_mac_auth_group()`, `remove_mac_auth_group()`, `set_vlan_authentication()` | Port access control |
+| `tasks.write.https_cert` | `generate_certificate()`, `import_certificate()`, `delete_certificate()` | HTTPS certificates |
 
 
 ### Navigation
@@ -168,6 +214,7 @@ tasks/
 - Table IDs differ by page: `#datagrid-configuration` (VLAN), `#datagrid-trunks` (Trunk), `#datagrid-interface-port` (Port), `#datagrid-routing-vlan` (Routing)
 - Trunk removal: web UI does NOT support removing trunks. Use `disable_trunk()` + `clear_trunk_members()` instead.
 - `apply_pending()`: click page-level `#btnApply` if pending changes exist (returns True if clicked)
+- `close_any_modal()`: closes open modal dialogs to prevent blocking navigation
 
 ## Legacy Automation Scripts (in `aruba/`)
 
@@ -307,6 +354,256 @@ snmp_exporter v0.26.0 deployed in `monitoring` namespace. Scrapes both switches 
 - Trunk between switches (TRK1, port 28) carries VLANs 1-4 tagged
 - SNMP read-only community `YOUR_COMMUNITY_STRING` allows 0.0.0.0 (updated 08/26/2026)
 - Help button (`#btnTopHelp`) navigates to Dashboard page, not a help document — use OLH API instead
+
+## Function Index
+
+### Base (`tasks/__init__.py`)
+| Function | OLH Topics |
+|----------|-----------|
+| `connect(ip, cred_file)` | n/a |
+| `disconnect(sw)` | n/a |
+| `get_creds(cred_file)` | n/a |
+| `ArubaSwitch.navigate(folder, item)` | all |
+| `ArubaSwitch.apply_pending()` | n/a |
+| `ArubaSwitch.close_any_modal()` | n/a |
+| `ArubaSwitch.download_config()` | olhBackup |
+| `ArubaSwitch.get_firmware_version()` | olhMaintenance |
+| `ArubaSwitch.get_help(topic)` | all |
+| `ArubaSwitch.list_help_topics()` | all |
+
+### Read Modules (`tasks/read/`)
+| Module | Function | OLH Topics |
+|--------|----------|-----------|
+| vlan | `list_vlans()` | olhVLAN, olhVLANConfiguration |
+| vlan | `get_vlan_device_view()` | olhVLANDeviceView |
+| routing | `list_vlan_interfaces()` | olhRouting, olhRoutingPortVlan |
+| routing | `get_vlan_interface_configuration()` | olhVLANInterfaceConfiguration |
+| port | `list_ports()` | olhPortConfiguration, olhPortConfigurationDeviceView |
+| trunk | `list_trunks()` | olhTrunkConfiguration, olhTrunkGlobal |
+| backup | `backup_config()` | olhBackup, olhConfigurationFile |
+| backup | `get_firmware_info()` | olhMaintenance |
+| backup | `get_firmware_info()` | olhMaintenance |
+| acl | `list_ip_acl()` | olhACL, olhACLIP |
+| acl | `list_mac_acl()` | olhACLMAC |
+| acl | `list_vlan_acl()` | olhACLVLAN |
+| acl | `list_acl_interface_bindings()` | olhACLInterface |
+| acl | `list_acl_summary()` | olhACL |
+| arp | `list_arp_table()` | olhARP, olhARPTable, olhARPGlobal |
+| arp | `get_arp_attack_protection()` | olhARPAttackProtection, olhARPAttackProtectionGlobal |
+| arp | `get_arp_protection_per_interface()` | olhARPAttackProtectionInterface |
+| arp | `get_arp_protection_per_vlan()` | olhARPAttackProtectionVlan |
+| arp | `get_arp_access_control_rules()` | olhARPAttackProtectionACL |
+| cos | `get_cos_general_settings()` | olhQoS, olhCoS, olhCoSGeneral |
+| cos | `list_priority_map()` | olhCoSPriority |
+| cos | `list_queue_config()` | olhCoSQueue |
+| cos | `list_dscp_cos_map()` | olhCoSDSCP |
+| cos | `list_cos_statistics()` | olhCoSStatistics |
+| cos | `list_interface_cos_config()` | olhCoSShaping |
+| cos | `get_cos_shaping()` | olhCoSShaping |
+| cst | `get_cst_status()` | olhCST |
+| cst | `get_cst_config()` | olhCSTConfiguration |
+| dhcp | `get_dhcp_relay_global()` | olhDHCPRelay, olhDHCPRelayGlobal |
+| dhcp | `list_dhcp_relay_servers()` | olhDHCPRelayServer |
+| dhcp | `list_dhcp_relay_interfaces()` | olhDHCPRelayInterfaces |
+| dhcp | `get_dhcp_snooping_status()` | olhDHCPSnooping, olhDHCPSnoopingGlobal |
+| dhcp | `list_dhcp_bindings()` | olhDHCPBindingDatabase |
+| dhcp | `get_dhcp_interface_settings()` | olhDHCPInterfaceSettings |
+| dhcp | `get_dhcp_vlan_settings()` | olhDHCPVLANSettings |
+| dsp | `get_dos_protection_status()` | olhDSP, olhDSPGlobal |
+| dsp | `get_dsp_per_interface()` | olhDSPInterface |
+| dsp | `get_syn_attack_status()` | olhDSPSynAttack |
+| eee | `get_eee_global_status()` | olhEEE, olhEEEGlobal, olhEEEGlobalStatus |
+| eee | `get_eee_per_interface()` | olhEEEInterfaceStatus |
+| igmp | `get_igmp_snooping_status()` | olhIGMP, olhIGMPSnooping |
+| igmp | `get_igmp_forwarding()` | olhIGMPSnoopingForwarding |
+| igmp | `list_igmp_multicast()` | olhIGMPSnoopingMulticast |
+| igmp | `get_igmp_per_vlan()` | olhIGMPSnoopingVLAN |
+| igmp | `get_igmp_unregistered_multicast()` | olhIGMPSnoopingUnregisteredMulticast |
+| lag | `list_lag_groups()` | olhLAG, olhLAGDeviceView |
+| lldp | `get_lldp_global()` | olhLLDP, olhLLDPGlobal |
+| lldp | `get_lldp_per_interface()` | olhLLDPInterface |
+| lldp | `list_lldp_neighbors()` | olhLLDPLocalDevice, olhLLDPRemotelDevice |
+| lldp | `get_lldp_stats()` | olhLLDPStatistics |
+| lldp | `get_lldp_information()` | olhLLDPInformation |
+| lldp_med | `get_lldpmed_global()` | olhLLDPMED, olhLLDPMEDConfiguration |
+| lldp_med | `get_lldpmed_information()` | olhLLDPMEDInformation |
+| lldp_med | `get_lldpmed_per_interface()` | olhLLDPMEDInterface |
+| lldp_med | `list_lldpmed_remote_devices()` | olhLLDPMEDRemote |
+| logging | `get_log_global_config()` | olhLoggingGlobal |
+| logging | `list_buffered_logs()` | olhLoggingBufferedLog |
+| logging | `list_log_messages()` | olhLoggingMessage |
+| logging | `get_remote_log_config()` | olhLoggingRemoteLog |
+| logging | `get_log_file()` | olhLoggingLogFile |
+| loop_protection | `get_loop_protection_status()` | olhLoopProtection, olhLoopProtectionOverview |
+| loop_protection | `get_loop_protection_per_interface()` | olhLoopProtectionInterfaces |
+| mac | `list_mac_table()` | olhMACTable, olhMACAddressTable |
+| mac | `get_mac_table_global()` | olhMACTableGlobal |
+| mstp | `get_mstp_config()` | olhMSTP, olhMSTPConfiguration |
+| mstp | `get_mstp_per_port()` | olhMSTPPortConfiguration |
+| poe | `list_poe_ports()` | olhPOE, olhPOEDeviceView, olhPOEPortConfiguration |
+| poe | `get_poe_schedule()` | olhPOESchedule, olhPOEScheduleConfiguration |
+| poe | `get_poe_consumption_history()` | olhPOEConsumptionHistory |
+| poe | `get_poe_status()` | olhPOEStatus |
+| radius | `list_radius_servers()` | olhRadiusServer |
+| radius | `get_radius_global()` | olhRadiusGlobal |
+| rmon | `get_rmon_global()` | olhRMON |
+| rmon | `list_rmon_alarms()` | olhRMONAlarms |
+| rmon | `list_rmon_collectors()` | olhRMONCollectors |
+| rmon | `list_rmon_events()` | olhRMONEventLog, olhRMONEvents |
+| rmon | `list_rmon_statistics()` | olhRMONStatistics, olhRMONHistoryLog |
+| snmp | `get_snmp_settings()` | olhSNMP, olhSNMPSetting |
+| snmp | `list_snmp_communities()` | olhCommunityConfiguration |
+| snmp | `list_snmp_users()` | olhSNMPUser |
+| snmp | `get_snmp_v3_receivers()` | olhReceiversV3 |
+| snmp | `get_snmp_engine_id()` | olhSNMPEngineId |
+| snmp | `list_snmp_filters()` | olhSNMPFilter |
+| snmp | `list_snmp_views()` | olhSNMPView |
+| snmp | `get_snmp_v1v2_receivers()` | olhReceiversV1V2 |
+| stp | `get_stp_global_status()` | olhSTP, olhSTPGlobal, olhSTPGlobalSettings |
+| stp | `get_stp_statistics()` | olhSpanningTreeStatistis |
+| voice_vlan | `get_voice_vlan_global()` | olhVoiceVLAN, olhVoiceVLANGlobal |
+| voice_vlan | `get_voice_vlan_per_interface()` | olhVoiceVLANInterface |
+| voice_vlan | `list_voice_vlan_ouis()` | olhVoiceVLANOUI |
+| interface | `get_interface_config()` | olhInterfaceConfiguration |
+| interface | `get_auto_recovery_settings()` | olhInterfaceAutoRecovery, olhInterfaceRecoverySetting |
+| system | `get_system_info()` | olhSystemInformation |
+| system | `get_system_time()` | olhSystemTime, olhSystemTimeSetup, olhTimeConfiguration |
+| system | `get_system_resources()` | olhSystemResource |
+| system | `list_user_accounts()` | olhUserAccounts, olhUserManagement |
+| system | `get_password_rules()` | olhAccountSecuritySettings, olhPasswordRules |
+| system | `list_user_sessions()` | olhUserSessions |
+| system | `get_management_vlan()` | olhManagementVLANSettings |
+| system | `get_daylight_saving()` | olhDaylightSaving |
+| system | `get_logged_in_sessions()` | olhLoggedIn |
+| system | `list_password_keywords()` | olhKeywords |
+| system | `get_dashboard_info()` | olhDashboard |
+| system | `get_dashboard_device_view()` | olhDashboardDeviceView |
+| system | `get_device_information()` | olhDeviceInformation |
+| diagnostics | `ping()` | olhPing, olhPing4, olhPing6, olhPingResult, olhDiagnostics |
+| diagnostics | `traceroute()` | olhTraceroute, olhTraceroute4, olhTraceroute6, olhTracerouteResult |
+| diagnostics | `cable_test()` | olhCableTest, olhCableTestInterfaceConfiguration |
+| diagnostics | `download_support_file()` | olhSupportFile |
+| security | `list_port_security()` | olhSecurity, olhPortSecurity, olhPortSecurityConfiguration, olhPortSecurityDynamicMac, olhPortSecurityStaticMac |
+| security | `get_port_access_control()` | olhPortAccessControl, olhPortAccessControlPort |
+| security | `get_port_access_control_global()` | olhPortAccessControlGlobal |
+| security | `list_port_access_control_vlan()` | olhPortAccessControlVlan |
+| security | `list_port_access_control_supplicant()` | olhPortAccessControlSupplicant |
+| security | `list_port_access_control_client()` | olhPortAccessControlClient |
+| security | `get_port_access_control_statistics()` | olhPortAccessControlStatistics |
+| security | `list_port_access_control_mac()` | olhPortAccessControlMac |
+| security | `list_protected_ports()` | olhProtectedPorts, olhProtectedPortsInterfaces |
+| security | `get_port_access_control()` | olhAccessControlGroup |
+| port_stats | `get_port_statistics()` | olhPortStatistics, olhPortInformation |
+| port_stats | `list_suspended_interfaces()` | olhSuspendedInterfaces |
+| port_mirroring | `list_mirroring_sessions()` | olhPortMirroring, olhMirroringSessions |
+| routing_stats | `get_routing_global()` | olhRoutingGlobal |
+| routing_stats | `list_route_table()` | olhRoutingRouteTable |
+| routing_stats | `list_static_routes()` | olhRoutingStaticRouting |
+| routing_stats | `get_routing_stats()` | olhRoutingICMPStatistics, olhRoutingIPStatistics |
+| vlan_membership | `list_vlan_membership_by_interface()` | olhVLANMembershipByInterface |
+| vlan_membership | `list_vlan_membership_by_vlan()` | olhVLANMembershipByVLAN |
+| device_locator | `get_device_locator_status()` | olhDeviceLocator |
+| http_https | `get_http_settings()` | olhHTTPManagementSettings |
+| http_https | `get_https_settings()` | olhHTTPS |
+| http_https | `get_certificate_info()` | olhHTTPSCertificate |
+| ipv6 | `get_ipv6_setup()` | olhIPv6Setup |
+| get_connected | `get_ipv4_setup()` | olhIPv4Setup |
+| get_connected | `get_network_setup()` | olhGetConnected |
+| maintenance | `get_config_file_info()` | olhConfigurationFile |
+| maintenance | `get_reboot_status()` | olhRebootDevice |
+| maintenance | `get_reset_status()` | olhReset |
+| maintenance | `get_reset_defaults_status()` | olhResetDefaults |
+| maintenance | `get_config_wizard_status()` | olhConfigWizard |
+
+### Write Modules (`tasks/write/`)
+| Module | Function | OLH Topics |
+|--------|----------|-----------|
+| vlan | `add_vlan(vid, name)` | olhVLANConfiguration |
+| vlan | `rename_vlan(vid, new_name)` | olhVLANConfiguration |
+| vlan | `delete_vlan(vid)` | olhVLANConfiguration |
+| routing | `clear_vlan_ip(vid)` | olhRoutingPortVlan |
+| routing | `set_vlan_ip(vid, ip, mask)` | olhRoutingPortVlan |
+| port | `edit_port_pvid(port, pvid)` | olhPortConfiguration |
+| port | `set_port_description(port, desc)` | olhPortConfiguration |
+| trunk | `disable_trunk(trunk_num)` | olhTrunkConfiguration |
+| trunk | `clear_trunk_members(trunk_num)` | olhTrunkConfiguration |
+| routing | `add_static_route(destination, mask, gateway, vid)` | olhRoutingStaticRouting |
+| routing | `remove_static_route(idx)` | olhRoutingStaticRouting |
+| dhcp_relay | `add_dhcp_server(ip)` | olhDHCPRelay, olhDHCPRelayServer |
+| dhcp_relay | `remove_dhcp_server(ip)` | olhDHCPRelay, olhDHCPRelayServer |
+| dhcp_relay | `add_dhcp_interface(vid)` | olhDHCPRelayInterfaces |
+| dhcp_relay | `remove_dhcp_interface(vid)` | olhDHCPRelayInterfaces |
+| logging | `enable_logging()` | olhLoggingGlobal |
+| logging | `set_log_severity(severity)` | olhLoggingGlobal |
+| logging | `add_remote_log_server(ip, port)` | olhLoggingRemoteLog |
+| logging | `remove_remote_log_server(idx)` | olhLoggingRemoteLog |
+| loop_protection | `enable_loop_protection()` | olhLoopProtection |
+| loop_protection | `set_loop_protection_time(seconds)` | olhLoopProtection |
+| loop_protection | `set_port_loop_protection(port, enable)` | olhLoopProtectionInterfaces |
+| eee_config | `enable_ee()` | olhEEE, olhEEEGlobal |
+| eee_config | `enable_low_power()` | olhEEE, olhEEEGlobal |
+| maintenance | `reboot_switch()` | olhMaintenance, olhRebootDevice |
+| voice_vlan | `add_telephony_oui(oui)` | olhVoiceVLAN, olhVoiceVLANOUI |
+| voice_vlan | `remove_telephony_oui(oui)` | olhVoiceVLAN, olhVoiceVLANOUI |
+| voice_vlan | `restore_telephony_oui()` | olhVoiceVLAN, olhVoiceVLANOUI |
+| stp_global | `enable_stp()` | olhSTP, olhSTPGlobal |
+| stp_global | `set_stp_priority(priority)` | olhSTP, olhSTPGlobal |
+| stp_global | `set_stp_timers(fwd_delay, hello_time, max_age)` | olhSTP, olhSTPGlobal |
+| stp_global | `enable_bpdu_filter()` | olhSTP, olhSTPGlobal |
+| mstp_config | `add_mstp_instance(revision, name)` | olhMSTP, olhMSTPConfiguration |
+| mstp_config | `edit_mstp_instance(idx, revision, name)` | olhMSTP, olhMSTPConfiguration |
+| mstp_config | `remove_mstp_instance(idx)` | olhMSTP, olhMSTPConfiguration |
+| mstp_config | `set_mstp_port_params(port, instance, priority, weight)` | olhMSTPPortConfiguration |
+| lldp | `set_lldp_timers(tx_interval, tx_count, hold_time)` | olhLLDP, olhLLDPGlobal |
+| lldp | `configure_lldp_interface(port, tx, rx)` | olhLLDPInterface |
+| igmp_snooping | `configure_igmp_snooping(vid, enable, fast_leave)` | olhIGMP, olhIGMPSnooping |
+| igmp_snooping | `set_igmp_querier(vid, enable, ip)` | olhIGMPSnooping |
+| igmp_snooping | `add_static_member(vid, port, group)` | olhIGMPSnoopingMulticast |
+| protected_ports | `enable_protected_port(port)` | olhProtectedPorts |
+| dos_protection | `enable_dos_protection()` | olhDSP, olhDSPGlobal |
+| dos_protection | `set_dos_threshold(rate)` | olhDSP, olhDSPGlobal |
+| arp_attack_protection | `enable_arp_protection()` | olhARPAttackProtection |
+| arp_attack_protection | `set_arp_interface_protection(port, enable)` | olhARPAttackProtectionInterface |
+| arp_attack_protection | `add_arp_access_rule(vid, mac, ip)` | olhARPAttackProtectionACL |
+| arp_attack_protection | `remove_arp_access_rule(idx)` | olhARPAttackProtectionACL |
+| port_security | `enable_port_security()` | olhPortSecurity |
+| port_security | `add_static_mac(port, mac)` | olhPortSecurityStaticMac |
+| port_security | `remove_static_mac(idx)` | olhPortSecurityStaticMac |
+| radius | `add_radius_server(ip, port, secret)` | olhRadiusServer |
+| radius | `edit_radius_server(idx, ip, port, secret)` | olhRadiusServer |
+| radius | `remove_radius_server(idx)` | olhRadiusServer |
+| schedule_config | `add_schedule(name, type, value)` | olhSchedule, olhScheduleConfiguration |
+| schedule_config | `remove_schedule(idx)` | olhSchedule, olhScheduleConfiguration |
+| dhcp_snooping | `enable_dhcp_snooping()` | olhDHCPSnooping |
+| dhcp_snooping | `set_dhcp_trusted_port(port, trusted)` | olhDHCPSnooping |
+| dhcp_snooping | `add_dhcp_binding(mac, ip, vid, port)` | olhDHCPBindingDatabase |
+| dhcp_snooping | `clear_dhcp_bindings()` | olhDHCPBindingDatabase |
+| port_mirroring | `add_mirror_session(name, source, direction, dest)` | olhPortMirroring |
+| port_mirroring | `edit_mirror_session(idx, name, source, direction, dest)` | olhPortMirroring |
+| port_mirroring | `remove_mirror_session(idx)` | olhPortMirroring |
+| snmp | `enable_snmp()` | olhSNMP, olhSNMPSetting |
+| snmp | `add_snmp_community(name, access, ip)` | olhCommunityConfiguration |
+| snmp | `remove_snmp_community(idx)` | olhCommunityConfiguration |
+| snmp | `add_snmp_trap_receiver(name, ip, community)` | olhReceiversV1V2 |
+| snmp | `remove_snmp_trap_receiver(idx)` | olhReceiversV1V2 |
+| acl | `add_acl(name)` | olhACL, olhACLIP |
+| acl | `add_acl_rule_ipv4(idx, rule)` | olhACL, olhACLIP |
+| acl | `remove_acl_rule_ipv4(idx, rule_idx)` | olhACL, olhACLIP |
+| acl | `remove_acl(idx)` | olhACL, olhACLIP |
+| acl | `bind_acl_to_interface(acl_idx, port, direction)` | olhACLInterface |
+| acl | `bind_acl_to_vlan(acl_idx, vid, direction)` | olhACLVLAN |
+| cos | `set_cos_priority(mapping)` | olhCoS, olhCoSPriority |
+| cos | `set_queue_scheduling(queue, type, weight)` | olhCoSQueue |
+| cos | `set_traffic_type(mapping)` | olhCoS |
+| cos | `set_interface_shaping_rate(port, rate)` | olhCoSShaping |
+| port_access_control | `add_mac_auth_rule(name, action)` | olhPortAccessControl |
+| port_access_control | `remove_mac_auth_rule(idx)` | olhPortAccessControl |
+| port_access_control | `add_mac_auth_group(name, rule_idx)` | olhAccessControlGroup |
+| port_access_control | `remove_mac_auth_group(idx)` | olhAccessControlGroup |
+| port_access_control | `set_vlan_authentication(vid, vlan)` | olhPortAccessControlVlan |
+| https_cert | `generate_certificate(cn, key_size, validity)` | olhHTTPSCertificate |
+| https_cert | `import_certificate(cert_path, key_path)` | olhHTTPSCertificate |
+| https_cert | `delete_certificate(idx)` | olhHTTPSCertificate |
 
 ## AI Attribution
 
